@@ -1,0 +1,233 @@
+/* =========================================
+   1. GLOBAL & RESET
+   ========================================= */
+/* Global Reset */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    height: 100vh;
+    background-color: #333;
+    overflow: hidden; /* Prevent scrolling on the body itself */
+}
+
+/* =========================================
+   2. MAIN LAYOUT & CANVAS WRAPPER
+   ========================================= */
+/* Main Container is just a wrapper now */
+.main-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* The Preview Panel (Now Full Screen) */
+.preview-panel {
+    width: 100vw;
+    height: 100vh;
+    background-color: #e6e6e6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1; /* Lowest layer */
+}
+
+/* The SVG Canvas itself */
+#donut-canvas {
+    background-color: white;
+    width: auto;
+    height: auto;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2); /* Drop shadow to make it pop */
+    /* This ensures the SVG scales down if the screen is too small */
+    max-width: 95%; 
+    max-height: 95%;
+}
+
+/* =========================================
+   3. SIDEBAR & SETTINGS PANEL
+   ========================================= */
+/* The Sidebar (The Overlay) */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -360px; /* Hide off-screen to the left */
+    width: 320px;
+    height: 100%;
+    background-color: rgba(43, 43, 43, 0.95); /* Slight transparency looks cool */
+    backdrop-filter: blur(10px); /* Blur effect behind controls */
+    border-right: 1px solid #444;
+    display: flex;
+    flex-direction: column;
+    z-index: 100; /* Sit on top of preview */
+    transition: left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth slide animation */
+    box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+}
+
+/* The state when the sidebar is visible */
+.sidebar.open {
+    left: 0;
+}
+
+/* The Left Panel: Controls */
+.controls-panel {
+    /* UPDATED PADDING: Push content down so it starts BELOW the floating buttons */
+    padding: 20px;
+    padding-top: 80px; 
+    overflow-y: auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: white;
+}
+
+/* =========================================
+   4. FLOATING HEADER & BUTTONS
+   ========================================= */
+/* --- FLOATING HEADER --- */
+.floating-header {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 200; /* Sit on top of sidebar and canvas */
+    display: flex;
+    gap: 10px; /* Space between buttons */
+}
+
+/* Base style for all floating buttons */
+.float-btn {
+    border: none;
+    padding: 10px 16px;
+    border-radius: 30px; /* Pill shape */
+    font-weight: bold;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    transition: transform 0.2s, filter 0.2s;
+    color: #333; /* Dark text usually looks better on these colors */
+}
+
+.float-btn:hover {
+    transform: translateY(-2px); /* Slight lift effect */
+    filter: brightness(1.1);
+}
+
+/* Specific Colors */
+.float-btn.icon-btn {
+    background-color: #444;
+    color: white; /* Dark button, white text */
+}
+
+.float-btn.primary {
+    background-color: #FC86D1; /* Pink */
+}
+
+.float-btn.secondary {
+    background-color: #4ecdc4; /* Teal */
+}
+
+/* =========================================
+   5. FORM CONTROLS & TYPOGRAPHY
+   ========================================= */
+h1 {
+    margin-top: 0;
+    margin-bottom: 5px; 
+    font-size: 1.2rem;  
+    color: #FC86D1;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column; /* Stack label on top of slider */
+}
+
+.control-group label {
+    font-size: 0.85rem; 
+    margin-bottom: 2px; 
+    color: #ccc;
+    font-weight: 600;
+}
+
+/* Styling for the Canvas Size row */
+.input-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Make ranges (sliders) span the full width */
+input[type="range"] {
+    margin: 0; /* Remove default browser margin */
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Style the number inputs to look modern */
+input[type="number"], select {
+    background-color: #444;
+    border: 1px solid #555;
+    color: white;
+    padding: 2px 5px;
+    border-radius: 4px;
+    width: 100%;
+    height: 30px;
+    font-size: 0.9rem;
+}
+
+/* =========================================
+   6. PALETTE SYSTEM
+   ========================================= */
+.palette-grid {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping to next line */
+    gap: 5px;
+    margin-bottom: 5px;
+}
+
+/* Each individual color item (Input + Delete Button) */
+.palette-item {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    background-color: #444;
+    padding: 2px;
+    border-radius: 4px;
+    border: 1px solid #555;
+}
+
+/* The color input itself */
+.palette-item input[type="color"] {
+    width: 30px;
+    height: 30px;
+    border: none;
+    padding: 0;
+    background: none;
+    cursor: pointer;
+}
+
+/* The tiny 'x' button */
+.btn-delete {
+    background: none;
+    border: none;
+    color: #ff6b6b;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 0 5px;
+    line-height: 1;
+}
+
+.btn-delete:hover {
+    color: #ff4c4c;
+}
+
+/* =========================================
+   7. UTILITIES
+   ========================================= */
+/* Small button variant for the "+ Add" button */
+.btn.small {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+}

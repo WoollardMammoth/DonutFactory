@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donut Generator</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="floating-header">
+        <button id="toggle-sidebar" class="float-btn icon-btn">⚙️ Settings</button>
+        <button id="btn-refresh" class="float-btn primary">🎲 Rescatter</button>
+        <button id="btn-download" class="float-btn secondary">💾 SVG</button>
+        <button id="btn-download-png" class="float-btn secondary">🖼️ PNG</button>
+    </div>
+
+    <div class="sidebar open" id="my-sidebar">
+
+        <div class="main-container">
+            <div class="controls-panel">
+                <h1>Donut Generator</h1>
+                <div class="control-group">
+                    <label>Canvas Size (px)</label>
+                    <div class="input-row">
+                        <input type="number" id="canvas-width" value="800" min="100" max="3000">
+                        <span>x</span>
+                        <input type="number" id="canvas-height" value="600" min="100" max="3000">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Density</label>
+                    <input type="range" id="density" min="1" max="100" value="20"
+                        oninput="document.getElementById('density-val').innerText = this.value">
+                    <span id="density-val">20</span>
+                </div>
+                <div class="control-group">
+                    <label>Layers</label>
+                    <input type="range" id="layers" min="1" max="10" value="4"
+                        oninput="document.getElementById('layer-val').innerText = this.value">
+                    <span id="layer-val">4</span>
+                </div>
+                <div class="control-group">
+                    <label>Height</label>
+                    <input type="range" id="height" min="10" max="110" value="75"
+                        oninput="document.getElementById('height-val').innerText = this.value">
+                    <span id="height-val">75</span>
+                </div>
+                <div class="control-group">
+                    <label>Overlap</label>
+                    <input type="range" id="overlap" min="0" max="1" step="0.01" value="0.4"
+                        oninput="document.getElementById('overlap-val').innerText = this.value">
+                    <span id="overlap-val">0.4</span>
+                </div>
+                <div class="control-group">
+                    <label>Complexity</label>
+                    <input type="range" id="complexity" min="2" max="30" value="10"
+                        oninput="document.getElementById('complexity-val').innerText = this.value">
+                    <span id="complexity-val">4</span>
+                </div>
+
+                <div class="control-group">
+                    <label>Quick Presets</label>
+                    <select id="preset-selector">
+                        <option value="Pink Frosted Donut">Pink Frosted Donut</option>
+                        <option value="White Frosted Donut">White Frosted Donut</option>
+                        <option value="Chocolate Frosted Donut">Chocolate Frosted Donut</option>
+                        <option value="Mint Frosted Chocolate Donut">Mint Chocolate Donut</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label>Frosting Gradient (Top / Bottom)</label>
+                    <div class="input-row">
+                        <input type="color" id="f1-color" value="#FC86D1">
+                        <input type="color" id="f2-color" value="#F4499C">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label>Pastry Color</label>
+                    <input type="color" id="bg-color" value="#CCA995">
+                </div>
+                <div class="control-group">
+                    <label>Sprinkle Palette</label>
+                    <div id="sprinkle-palette-container" class="palette-grid"></div>
+
+                    <button id="btn-add-color" class="btn secondary small" style="margin-top: 5px;">+ Add Color</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="preview-panel">
+        <svg id="donut-canvas" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+        </svg>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
