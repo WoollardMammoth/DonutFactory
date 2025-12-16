@@ -26,6 +26,7 @@ const state = {
     layers: 5,
     heightPercent: 80,
     overlap: 0.5,
+    allowOverlap: false,
     complexity: 8,
     colors: {
         bg: "#CCA995",
@@ -54,6 +55,7 @@ const inputs = {
     layers: document.getElementById("layers"),
     dripHeight: document.getElementById("height"),
     overlap: document.getElementById("overlap"),
+    allowOverlap: document.getElementById("allow-overlap"),
     complexity: document.getElementById("complexity"),
     bg: document.getElementById("bg-color"),
     f1: document.getElementById("f1-color"),
@@ -347,7 +349,12 @@ function generateSprinkles() {
     layer.innerHTML = "";
 
     const area = state.width * state.height;
-    const targetCount = Math.floor((area / 350) * (state.density / 100));
+
+    let targetCount = Math.floor((area / 350) * (state.density / 100));
+
+    if(state.allowOverlap){
+        targetCount = Math.floor((area / 3000) * (state.density / 100));
+    }
 
     const sprinkles = [];
 
@@ -373,13 +380,16 @@ function generateSprinkles() {
                 stretch: 0.85 + Math.random() * 0.45
             };
 
-            if (state.overlap < 1) {
+            if (!state.allowOverlap) {
                 const collisionDetected = checkCollision(candidate, sprinkles);
                 if (!collisionDetected) {
                     // SUCCESS! 
                     sprinkles.push(candidate);
                     break; // Stop trying for this sprinkle, move to the next 'i'
                 }
+            }
+            else {
+                sprinkles.push(candidate);
             }
             loops++;
         }
@@ -438,6 +448,7 @@ function updateAndDraw() {
     state.layers = parseInt(inputs.layers.value);
     state.heightPercent = parseInt(inputs.dripHeight.value);
     state.overlap = parseFloat(inputs.overlap.value);
+    state.allowOverlap = inputs.allowOverlap.checked;
     state.complexity = parseInt(inputs.complexity.value);
     state.colors.bg = inputs.bg.value;
     state.colors.f1 = inputs.f1.value;
