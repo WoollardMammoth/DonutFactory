@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donut Factory</title>
+    <title>Donut Generator</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -22,7 +22,7 @@
 
         <div class="main-container">
             <div class="controls-panel">
-                <h1>Donut Factory</h1>
+                <h1>Donut Generator</h1>
                 <div class="control-group">
                     <label>Canvas Size (px)</label>
                     <div class="input-row">
@@ -37,6 +37,12 @@
                     <input type="range" id="density" min="1" max="100" value="20"
                         oninput="document.getElementById('density-val').innerText = this.value">
                     <span id="density-val">20</span>
+                </div>
+                <div class="control-group">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="allow-overlap" unchecked>
+                        More Sprinkles!
+                    </label>
                 </div>
                 <div class="control-group">
                     <label>Layers</label>
@@ -103,6 +109,4 @@
     <script src="script.js"></script>
 </body>
 
-
 </html>
-
