@@ -231,3 +231,22 @@ input[type="number"], select {
     padding: 5px 10px;
     font-size: 0.8rem;
 }
+
+/* Checkbox Styling*/
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: white;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+/* Make the checkbox itself larger and easier to click */
+.checkbox-container input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #FC86D1;
+}
